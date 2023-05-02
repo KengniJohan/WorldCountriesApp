@@ -33,13 +33,7 @@ class CountryViewModel @Inject constructor(
 
             try {
                 val countries = repository.getAll()
-                if (countries.isSuccessful) {
-                    if (!countries.body().isNullOrEmpty()){
-                        countriesMutableState.value = CountryState.Success.SuccessCountries(countries.body()!!)
-                    } else {
-                        countriesMutableState.value = CountryState.Error("Unable to fetch data !")
-                    }
-                }
+                countriesMutableState.value = CountryState.Success.SuccessCountries(countries)
             } catch (exception: HttpException) {
                 countriesMutableState.value = CountryState.Error("No internet connection !")
             } catch (exception: IOException) {
