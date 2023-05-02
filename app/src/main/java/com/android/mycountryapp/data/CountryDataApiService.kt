@@ -11,7 +11,7 @@ import retrofit2.http.Path
 interface CountryDataApiService {
 
     @GET(ALL_COUNTRIES)
-    suspend fun getAll() : Response<List<CountriesData>>
+    suspend fun getAll() : List<CountriesData>
 
     @GET("$DETAILS_COUNTRY/{name}")
     suspend fun getByName(
