@@ -1,7 +1,10 @@
 package com.android.mycountryapp.data.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.ArrayList
 
+@Parcelize
 data class Country(
     val name: CountryName ,
     val idd: CountryIdd ,
@@ -17,4 +20,4 @@ data class Country(
     val flags: CountryFlags ,
     val coatOfArms: CountryCoat ,
     val latlng: List<Double>
-)
+) : Parcelable

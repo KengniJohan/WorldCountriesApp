@@ -1,5 +1,9 @@
 package com.android.mycountryapp.data.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class CountriesData(
     val name: CountryName ,
     val idd: CountryIdd ,
@@ -15,4 +19,4 @@ data class CountriesData(
     val flags: List<String> ,
     val coatOfArms: CountryCoat ,
     val latlng: List<Double>
-)
+) : Parcelable
