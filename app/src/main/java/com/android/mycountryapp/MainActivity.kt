@@ -7,8 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,7 +21,6 @@ import com.android.mycountryapp.presentation.CountryDetails
 import com.android.mycountryapp.ui.theme.MyCountryAppTheme
 import com.android.mycountryapp.utils.Screen
 import com.android.mycountryapp.viewmodel.CountryViewModel
-import com.android.mycountryapp.viewmodel.states.CountryState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,11 +42,14 @@ class MainActivity : ComponentActivity() {
                             navController = navController ,
                             startDestination = Screen.CountriesList.route ,
                     ) {
+
+                        countryModel.getAll()
+
                         composable(
                                 route = Screen.CountriesList.route
                         ){
                             CountriesList(
-                                    countryModel = countryModel,
+                                    countriesState = countryModel.countriesState.collectAsState().value,
                                     navController = navController
                             )
                         }
@@ -57,19 +58,13 @@ class MainActivity : ComponentActivity() {
                                 arguments = listOf(navArgument("countryName") { type = NavType.StringType })
 
                         ){ backStackEntry ->
+
                             countryModel.getByName(backStackEntry.arguments?.getString("countryName").toString())
-                            when (val state = countryModel.countryState.collectAsState().value) {
 
-                                is CountryState.Success.SuccessCountry -> {
-                                    CountryDetails(
-                                            country = state.country[0],
-                                            navController = navController
-                                    )
-                                }
-
-                                else -> {}
-
-                            }
+                            CountryDetails(
+                                    countryState = countryModel.countryState.collectAsState().value,
+                                    navController = navController
+                            )
                         }
                     }
                 }
